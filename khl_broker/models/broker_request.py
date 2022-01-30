@@ -222,31 +222,31 @@ class BrokerRequest(models.Model):
     def create_invoice(self):
         # create product of type service
         self.ensure_one()
-        # journal = self.env['account.move'].with_context(default_move_type='out_invoice')._get_default_journal()
-        # if not journal:
-        #     raise UserError(
-        #         _('Please define an accounting sales journal for the company %s (%s).', self.company_id.name,
-        #           self.company_id.id))
-        # product = self.env['product.product'].sudo().create({
-        #     'name': self.unit_id.name,
-        #     'type': 'service'
-        # })
-        # move = self.env['account.move'].sudo().create([{
-        #     'move_type': 'out_invoice',
-        #     'journal_id': journal.id,
-        #     'partner_id': self.developer_company.id,
-        #     'date': fields.Date.today(),
-        #     'invoice_date': fields.Date.today(),
-        #     'company_id': self.company_id.id,
-        #     'invoice_line_ids': [(0, 0, {'product_id': product.id,
-        #                                  'price_unit': self.before_tax_value,
-        #                                  'account_id': product.categ_id.property_account_income_categ_id.id,
-        #                                  'analytic_account_id': self.analytic_account_id.id})]
-        # }])
+        journal = self.env['account.move'].with_context(default_move_type='out_invoice')._get_default_journal()
+        if not journal:
+            raise UserError(
+                _('Please define an accounting sales journal for the company %s (%s).', self.company_id.name,
+                  self.company_id.id))
+        product = self.env['product.product'].sudo().create({
+            'name': self.unit_id.name,
+            'type': 'service'
+        })
+        move = self.env['account.move'].sudo().create([{
+            'move_type': 'out_invoice',
+            'journal_id': journal.id,
+            'partner_id': self.developer_company.id,
+            'date': fields.Date.today(),
+            'invoice_date': fields.Date.today(),
+            'company_id': self.company_id.id,
+            'invoice_line_ids': [(0, 0, {'product_id': product.id,
+                                         'price_unit': self.before_tax_value,
+                                         'account_id': product.categ_id.property_account_income_categ_id.id,
+                                         'analytic_account_id': self.analytic_account_id.id})]
+        }])
         self.unit_id.write({
             'state': 'invoiced'
         })
-        # self.account_move_id = move.id
+        self.account_move_id = move.id
         self.get_sales_target_for_user()
         self.update_achieved_amount()
         self.get_employee_bouns_value()
