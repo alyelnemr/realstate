@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="view_broker_request_form" model="ir.ui.view">
+            <field name="name">view.broker.request.form</field>
+            <field name="model">broker.request</field>
+            <field name="arch" type="xml">
+                <form string="Broker Request">
+                    <header>
+                        <button name="reserve_unit" string="Reserve Unit" type="object" class="oe_highlight"
+                                states="valid"/>
+                        <button name="un_reserve_unit" string="Un Reserve Unit" type="object" class="oe_highlight"
+                                states="reserved"/>
+                        <button name="sell_unit" string="Sell Unit" type="object" class="oe_highlight"
+                                states="reserved"/>
+                        <button name="un_sell_unit" string="Un Sell Unit" type="object" class="oe_highlight"
+                                states="sold"/>
+                        <button name="commission_request" string="Commission Request" type="object"
+                                class="oe_highlight"/>
+
+                        <button name="create_invoice" string="Create Invoice" type="object" class="oe_highlight"
+                                states="sold"/>
+                        <button name="calculate_incentive" string="Calculate Incentives" type="object" class="oe_highlight"
+                                states="invoiced"/>
+                        <field name="state" invisible="1"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <field name="account_move_id" invisible="1"/>
+                            <button name="action_view_invoice" type="object" class="oe_stat_button" string="Invoices"
+                                    icon="fa-pencil-square-o" attrs="{'invisible': [('account_move_id', '=', 0)]}">
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="pre_contract_reservation_id"/>
+                                <field name="developer_company" options="{'no_open': True}"/>
+                                <field name="customer_id" options="{'no_open': True}"/>
+                                <field name="unit_id" options="{'no_open': True}" domain="[('state','=','valid')]"/>
+                                <field name="contract_date"/>
+                                <field name="reserve_date"/>
+                            </group>
+                            <group>
+                                <field name="unit_name"/>
+                                <field name="unit_code"/>
+                                <field name="project_id"/>
+                                <field name="space"/>
+                                <field name="floor"/>
+                                <field name="analytic_account_id"/>
+                            </group>
+                            <group>
+                                <field name="sales_person_incentive_type"/>
+                                <field name="incentive_sales_person_percentage"
+                                       attrs="{'invisible':[('sales_person_incentive_type','!=','percentage')]}"/>
+                                <field name="incentive_sales_person_value"
+                                       attrs="{'invisible':[('sales_person_incentive_type','!=','value')]}"/>
+                            </group>
+                            <group>
+                                <field name="sales_manager_incentive_type"/>
+                                <field name="incentive_sales_manager_percentage"
+                                       attrs="{'invisible':[('sales_manager_incentive_type','!=','percentage')]}"/>
+                                <field name="incentive_sales_manager_value"
+                                       attrs="{'invisible':[('sales_manager_incentive_type','!=','value')]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Employees">
+                                <field name="user_ids">
+                                    <tree editable="bottom">
+                                        <field name="employee_id"/>
+                                        <field name="job_id"/>
+                                    </tree>
+                                    <form>
+                                        <sheet>
+                                            <group>
+                                                <field name="employee_id"/>
+                                                <field name="job_id"/>
+                                            </group>
+                                        </sheet>
+                                    </form>
+                                </field>
+                            </page>
+                            <page string="Price Details">
+                                <group>
+                                    <group>
+                                        <field name="developer_percentage" string="Developer %"/>
+                                        <field name="company_commission" string="Commission Value"/>
+                                        <field name="internal_taxes_percentage" string="Tax %"/>
+                                        <field name="before_tax_value"/>
+                                    </group>
+                                    <group>
+                                        <field name="company_amount_after_internal_taxes" string="Tax Value"/>
+                                        <field name="with_holding"/>
+                                        <field name="with_holding_value"/>
+                                        <field name="net_value"/>
+                                    </group>
+                                    <group>
+                                        <field name="sales_man_commission_based_value"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_broker_request_tree" model="ir.ui.view">
+            <field name="name">view.broker.request.tree</field>
+            <field name="model">broker.request</field>
+            <field name="arch" type="xml">
+                <tree string="Broker Request">
+                    <field name="developer_company"/>
+                    <field name="customer_id"/>
+                    <field name="unit_id"/>
+                    <field name="contract_date"/>
+                    <field name="reserve_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_broker_request_graph">
+            <field name="name">view.broker.request.graph</field>
+            <field name="model">broker.request</field>
+            <field name="arch" type="xml">
+                <graph string="Broker Request Graph">
+                    <field name="customer_id" type="row"/>
+                    <field name="unit_id" type="measure"/>
+                    <field name="developer_company" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_broker_request_pivot">
+            <field name="name">view.broker.request.pivot</field>
+            <field name="model">broker.request</field>
+            <field name="arch" type="xml">
+                <pivot string="Broker Request Pivot" disable_linking="True">
+                    <field name="customer_id" type="row"/>
+                    <field name="unit_id" type="measure"/>
+                    <field name="developer_company" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record id="action_broker_request_view" model="ir.actions.act_window">
+            <field name="name">Contract</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">broker.request</field>
+            <field name="view_mode">kanban,tree,form,graph,pivot</field>
+        </record>
+
+        <function model="broker.request" name="drop_account_constraint"/>
+
+
+    </data>
+</odoo>

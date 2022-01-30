@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="contract_report_id_template_id">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 style="text-align: center;">Contract Information</h2>
+                        <br/>
+                        <table width="100%" class="table-bordered">
+                            <tbody>
+                                <tr>
+                                    <td style="text-align: center;width:25%">
+                                        <span>Contract Name :</span>
+                                    </td>
+                                    <td style="text-align: center;width:75%">
+                                        <span t-esc="o.name"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">
+                                        <span>Developer Company :</span>
+                                    </td>
+
+                                    <td style="text-align: center;">
+                                        <span t-esc="o.developer_company.name"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">
+                                        <span>Customer :</span>
+                                    </td>
+
+                                    <td style="text-align: center;">
+                                        <span t-esc="o.customer_id.customer_name"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">
+                                        <span>Unit Name:</span>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span t-esc="o.unit_name"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">
+                                        <span>Project Name:</span>
+                                    </td>
+
+                                    <td style="text-align: center;">
+                                        <span t-esc="o.project_id.name"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">
+                                        <span>Space:</span>
+                                    </td>
+
+                                    <td style="text-align: center;">
+                                        <span t-esc="o.space"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">
+                                        <span>Floor:</span>
+                                    </td>
+
+                                    <td style="text-align: center;">
+                                        <span t-esc="o.floor"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">
+                                        <span>Contract Date:</span>
+                                    </td>
+
+                                    <td style="text-align: center;">
+                                        <span t-esc="o.contract_date"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        <h2 style="text-align: center;">Price Details</h2>
+                        <table width="100%" class="table-bordered">
+                            <tbody>
+                                <tr>
+                                    <td style="text-align: center;width:25%">
+                                        <span>Unit Price :</span>
+                                    </td>
+                                    <td style="text-align: center;width:75%">
+                                        <span t-esc="o.price"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">
+                                        <span>Company Commission :</span>
+                                    </td>
+
+                                    <td style="text-align: center;">
+                                        <span t-esc="o.company_commission"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">
+                                        <span>Developer Percentage :</span>
+                                    </td>
+
+                                    <td style="text-align: center;">
+                                        <span t-esc="o.developer_percentage"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">
+                                        <span>Commission After Developer Percentage:</span>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span t-esc="o.company_amount_after_developer_percentage"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">
+                                        <span>Internal Taxes Percentage:</span>
+                                    </td>
+
+                                    <td style="text-align: center;">
+                                        <span t-esc="o.internal_taxes_percentage"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">
+                                        <span>Company Commission After Internal Taxes:</span>
+                                    </td>
+
+                                    <td style="text-align: center;">
+                                        <span t-esc="o.company_amount_after_internal_taxes"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        <h2 style="text-align: center;">Employees</h2>
+                        <table class="table table-bordered" style="table-layout: fixed">
+                            <thead style="display: table-row-group">
+                                <tr>
+                                    <th class="text-center" style="width: 25%" scope="col">Employee</th>
+                                    <th class="text-center" style="width: 25%" scope="col">Job Position</th>
+                                </tr>
+                                <tbody>
+                                    <t t-if="o.user_ids">
+                                        <t t-foreach="o.user_ids" t-as="line">
+                                            <tr>
+                                                <td>
+                                                    <span t-esc="line.employee_id.name"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="line.employee_id.job_id.name"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </tbody>
+                            </thead>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="contract_report_id" model="ir.actions.report">
+        <field name="name">Contract Report</field>
+        <field name="model">broker.request</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">khl_broker.contract_report_id_template_id</field>
+        <field name="report_file">khl_broker.contract_report_id_template_id</field>
+        <field name="binding_model_id" ref="model_broker_request"/>
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>

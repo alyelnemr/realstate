@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="view_emp_sales_target_form" model="ir.ui.view">
+            <field name="name">view.emp.sales.target.form</field>
+            <field name="model">emp.sales.target</field>
+            <field name="arch" type="xml">
+                <form string="Emp Sales Target">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                        <button name="set_active" string="Active" type="object" class="oe_highlight" states="draft"/>
+                        <button name="set_to_draft" string="Set To Draft" type="object" class="oe_highlight"
+                                states="active"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="name" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="date_from" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="date_to" attrs="{'readonly':[('state','!=','draft')]}"/>
+                        </group>
+                        <notebook>
+                            <page string="Employees">
+                                <field name="target_line_ids" attrs="{'readonly':[('state','!=','draft')]}">
+                                    <tree editable="bottom">
+                                        <field name="employee_id"/>
+                                        <field name="target_amount"/>
+                                    </tree>
+                                    <form>
+                                        <sheet>
+                                            <group>
+                                                <field name="employee_id"/>
+                                                <field name="target_amount"/>
+                                            </group>
+                                        </sheet>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_emp_sales_target_tree" model="ir.ui.view">
+            <field name="name">view.emp.sales.target.tree</field>
+            <field name="model">emp.sales.target</field>
+            <field name="arch" type="xml">
+                <tree string="Emp Sales Target">
+                    <field name="name"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_emp_sales_target_view" model="ir.actions.act_window">
+            <field name="name">Target</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">emp.sales.target</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

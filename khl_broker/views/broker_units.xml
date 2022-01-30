@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="view_broker_units_form" model="ir.ui.view">
+            <field name="name">view.broker.units.form</field>
+            <field name="model">broker.units</field>
+            <field name="arch" type="xml">
+                <form string="Broker Units">
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,reserved,sold"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="unit_code" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="code"/>
+                                <field name="developer_company"/>
+                                <field name="name"/>
+                                <field name="project_id"/>
+                                <field name="space"/>
+                            </group>
+                            <group>
+                                <field name="price"/>
+                                <field name="commission_percentage"/>
+                                <field name="payment_plan"/>
+                                <field name="floor"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Address">
+                                <field name="address"/>
+                            </page>
+                            <page string="Notes">
+                                <field name="notes"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_broker_units_tree" model="ir.ui.view">
+            <field name="name">view.broker.units.tree</field>
+            <field name="model">broker.units</field>
+            <field name="arch" type="xml">
+                <tree string="Broker Units">
+                    <field name="unit_code"/>
+                    <field name="developer_company"/>
+                    <field name="name"/>
+                    <field name="project_id"/>
+                    <field name="price"/>
+                    <field name="commission_percentage"/>
+                    <field name="payment_plan"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_broker_units_graph">
+            <field name="name">view.broker.units.graph</field>
+            <field name="model">broker.units</field>
+            <field name="arch" type="xml">
+                <graph string="Broker Units Graph">
+                    <field name="state" type="row"/>
+                    <field name="unit_code" type="measure"/>
+                    <field name="project_id" type="measure"/>
+                    <field name="price" type="measure"/>
+                    <field name="commission_percentage" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_broker_units_pivot">
+            <field name="name">view.broker.units.pivot</field>
+            <field name="model">broker.units</field>
+            <field name="arch" type="xml">
+                <pivot string="Broker Units Pivot" disable_linking="True">
+                    <field name="state" type="row"/>
+                    <field name="price" type="measure"/>
+                    <field name="commission_percentage" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record id="action_broker_units_view" model="ir.actions.act_window">
+            <field name="name">Broker Units</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">broker.units</field>
+            <field name="view_mode">kanban,tree,form,graph,pivot</field>
+        </record>
+    </data>
+</odoo>

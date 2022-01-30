@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="commission_request_template_id">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <p style="text-align: right;">
+                            <span dir="rtl">السادة شركة :
+                                <span t-esc="o.developer_company.name"/>
+                            </span>
+                        </p>
+                        <p style="text-align: right;">
+                            <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
+                        </p>
+                        <p style="text-align: right;">
+                            <span>يرجى صرف</span>
+                        </p>
+                        <p style="text-align: right;">
+                            <span>-: وبيانتها كالتالى</span>
+                        </p>
+                        <table width="100%" class="table-bordered">
+                            <tbody>
+                                <tr>
+                                    <td style="text-align: center;width:75%">
+                                        <span t-esc="o.customer_id.customer_name"/>
+                                    </td>
+                                    <td style="text-align: center;background-color: #c9c9c9;width:25%">
+                                        <span>اسم العميل</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">
+                                        <span t-esc="o.unit_code"/>
+                                    </td>
+                                    <td style="text-align: center;background-color: #c9c9c9;">
+                                        <span>رقم الوحدة</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">
+                                        <span t-esc="o.floor"/>
+                                    </td>
+                                    <td style="text-align: center;background-color: #c9c9c9;">
+                                        <span>الدور</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">
+                                        <span t-esc="o.space"/>
+                                    </td>
+                                    <td style="text-align: center;background-color: #c9c9c9;">
+                                        <span>المساحة</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">
+                                        <span t-esc="o.price"/>
+                                    </td>
+                                    <td style="text-align: center;background-color: #c9c9c9;">
+                                        <span>أجمالى قيمة الوحدة</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">
+                                        <span t-esc="o.project_id.name"/>
+                                    </td>
+                                    <td style="text-align: center;background-color: #c9c9c9;">
+                                        <span>اسم المشروع</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        <p style="text-align: right;">
+                            <p style="text-align: right;">يرجى اصدار ايصال /<span t-esc="o.company_amount_after_internal_taxes"/>  بأسم شركة توب مانجيمنت للتسويق العقارى </p>
+                        </p>
+                        <p style="text-align: center;">وتفضلوا بقيول وافر الاحترام,,,,,,</p>
+                        <p style="text-align: center;">:التوقيع</p>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="commission_request_report_id" model="ir.actions.report">
+        <field name="name">Contract Report</field>
+        <field name="model">broker.request</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">khl_broker.commission_request_template_id</field>
+        <field name="report_file">khl_broker.commission_request_template_id</field>
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>

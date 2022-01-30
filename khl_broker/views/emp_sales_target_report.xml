@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="emp_sales_target_template_id">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h3 style="text-align: center;">Target Information</h3>
+                        <t t-foreach="o.period_ids" t-as="period">
+                            <div class="row mt32 mb32">
+                                <div class="col-auto col-3 mw-100 mb-2">
+                                    <strong>Period:</strong>
+                                    <p class="m-0" t-field="period.name"/>
+                                </div>
+                                <div class="col-auto col-3 mw-100 mb-2">
+                                    <strong>Start Date:</strong>
+                                    <p class="m-0" t-field="period.date_from"/>
+                                </div>
+                                <div class="col-auto col-3 mw-100 mb-2">
+                                    <strong>End Date:</strong>
+                                    <p class="m-0" t-field="period.date_to"/>
+                                </div>
+                            </div>
+                            <table class="table table-bordered" style="table-layout: fixed">
+                                <thead style="display: table-row-group">
+                                    <tr>
+                                        <th class="text-center" style="width: 25%" scope="col">Employee</th>
+                                        <th class="text-center" style="width: 25%" scope="col">Position</th>
+                                        <th class="text-center" style="width: 25%" scope="col">Target Value</th>
+                                        <th class="text-center" style="width: 25%" scope="col">Achieved Value</th>
+                                        <th class="text-center" style="width: 25%" scope="col">Remaining Value</th>
+                                        <th class="text-center" style="width: 25%" scope="col">Achieved %</th>
+                                    </tr>
+                                    <tbody>
+                                        <t t-if="period.target_line_ids">
+                                            <t t-if="o.employee_ids">
+                                                <t t-foreach="period.target_line_ids.filtered(lambda x:x.employee_id in o.employee_ids)"
+                                                   t-as="line">
+                                                    <tr>
+                                                        <td>
+                                                            <span t-esc="line.employee_id.name"/>
+                                                        </td>
+                                                        <td>
+                                                            <span t-esc="line.employee_id.job_id.name"/>
+                                                        </td>
+                                                        <td>
+                                                            <span t-esc="line.target_amount"/>
+                                                        </td>
+                                                        <td>
+                                                            <span t-esc="line.achieved_amount"/>
+                                                        </td>
+                                                        <td>
+                                                            <span t-esc="line.remaining_amount"/>
+                                                        </td>
+                                                        <td>
+                                                            <span t-esc="round(line.achieved_percentage,2)"/>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                            </t>
+                                            <t t-else="">
+                                                <t t-foreach="period.target_line_ids"
+                                                   t-as="line">
+                                                    <tr>
+                                                        <td>
+                                                            <span t-esc="line.employee_id.name"/>
+                                                        </td>
+                                                        <td>
+                                                            <span t-esc="line.employee_id.job_id.name"/>
+                                                        </td>
+                                                        <td>
+                                                            <span t-esc="line.target_amount"/>
+                                                        </td>
+                                                        <td>
+                                                            <span t-esc="line.achieved_amount"/>
+                                                        </td>
+                                                        <td>
+                                                            <span t-esc="line.remaining_amount"/>
+                                                        </td>
+                                                        <td>
+                                                            <span t-esc="round(line.achieved_percentage,2)"/>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                            </t>
+                                        </t>
+                                    </tbody>
+                                </thead>
+                            </table>
+                            <p style="page-break-after: always;"/>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="emp_sales_target_report_id" model="ir.actions.report">
+        <field name="name">Emp Sales Target</field>
+        <field name="model">emp.sales.target.report</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">khl_broker.emp_sales_target_template_id</field>
+        <field name="report_file">khl_broker.emp_sales_target_template_id</field>
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>

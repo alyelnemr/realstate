@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="view_broker_teams_form" model="ir.ui.view">
+            <field name="name">view.broker.teams.form</field>
+            <field name="model">broker.teams</field>
+            <field name="arch" type="xml">
+                <form string="Broker Teams">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="sales_manger_id"/>
+                            <field name="team_leader_id"/>
+                            <field name="team_ids" widget="many2many_tags"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_broker_teams_tree" model="ir.ui.view">
+            <field name="name">view.broker.teams.tree</field>
+            <field name="model">broker.teams</field>
+            <field name="arch" type="xml">
+                <tree string="Broker Teams">
+                    <field name="name"/>
+                    <field name="sales_manger_id"/>
+                    <field name="team_leader_id"/>
+                    <field name="team_ids" widget="many2many_tags"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_broker_teams_view" model="ir.actions.act_window">
+            <field name="name">Broker Teams</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">broker.teams</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

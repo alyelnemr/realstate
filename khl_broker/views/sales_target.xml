@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="view_sales_target_form" model="ir.ui.view">
+            <field name="name">view.sales.target.form</field>
+            <field name="model">sales.target</field>
+            <field name="arch" type="xml">
+                <form string="Sales Target">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                        <button name="set_active" string="Active" type="object" class="oe_highlight" states="draft"/>
+                        <button name="set_to_draft" string="Set To Draft" type="object" class="oe_highlight"
+                                states="active"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="employee_ids" attrs="{'readonly':[('state','!=','draft')]}"
+                                       widget="many2many_tags"/>
+                            </group>
+                            <group>
+                                <field name="date_from" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="date_to" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Commissions">
+                                <field name="commission_ids" attrs="{'readonly':[('state','!=','draft')]}">
+                                    <tree editable="bottom">
+                                        <field name="from_amount"/>
+                                        <field name="to_amount"/>
+                                        <field name="commission_percentage"/>
+                                    </tree>
+                                    <form>
+                                        <sheet>
+                                            <group>
+                                                <field name="from_amount"/>
+                                                <field name="to_amount"/>
+                                                <field name="commission_percentage"/>
+                                            </group>
+                                        </sheet>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_sales_target_tree" model="ir.ui.view">
+            <field name="name">view.sales.target.tree</field>
+            <field name="model">sales.target</field>
+            <field name="arch" type="xml">
+                <tree string="Sales Target">
+                    <field name="name"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="employee_ids"/>
+                    <!--                    <field name="target_amount"/>-->
+                    <!--                    <field name="achievement_amount"/>-->
+                    <!--                    <field name="achievement_percentage"/>-->
+                </tree>
+            </field>
+        </record>
+
+        <!--        <record model="ir.ui.view" id="view_sales_target_graph">-->
+        <!--            <field name="name">view.sales.target.graph</field>-->
+        <!--            <field name="model">sales.target</field>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <graph string="Sales Target Graph">-->
+        <!--                    <field name="name" type="row"/>-->
+        <!--                    <field name="target_amount" type="measure"/>-->
+        <!--                    <field name="achievement_amount" type="measure"/>-->
+        <!--                </graph>-->
+        <!--            </field>-->
+        <!--        </record>-->
+
+        <!--        <record model="ir.ui.view" id="view_sales_target_pivot">-->
+        <!--            <field name="name">view.sales.target.pivot</field>-->
+        <!--            <field name="model">sales.target</field>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <pivot string="Sales Target Graph" disable_linking="True">-->
+        <!--                    <field name="name" type="row"/>-->
+        <!--                    <field name="target_amount" type="measure"/>-->
+        <!--                    <field name="achievement_amount" type="measure"/>-->
+        <!--                </pivot>-->
+        <!--            </field>-->
+        <!--        </record>-->
+
+        <record id="action_sales_target_view" model="ir.actions.act_window">
+            <field name="name">Commission Setup</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sales.target</field>
+            <field name="view_mode">kanban,tree,form,graph,pivot</field>
+        </record>
+    </data>
+</odoo>

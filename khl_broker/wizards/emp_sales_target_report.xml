@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="view_emp_sales_target_wizard" model="ir.ui.view">
+            <field name="name">Target Report</field>
+            <field name="model">emp.sales.target.report</field>
+            <field name="arch" type="xml">
+                <form string="Emp Sales Target Report">
+                    <group>
+                        <field name="period_ids" widget="many2many_tags" required="1"/>
+                        <field name="period_employee_ids" widget="many2many_tags" invisible="1"/>
+                        <field name="employee_ids" widget="many2many_tags" domain="[('id','in',period_employee_ids)]"/>
+                    </group>
+                    <footer>
+                        <button name="print" string="Print" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_emp_sales_target_report" model="ir.actions.act_window">
+            <field name="name">Target Report</field>
+            <field name="res_model">emp.sales.target.report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_emp_sales_target_wizard"/>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

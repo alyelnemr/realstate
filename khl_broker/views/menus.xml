@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <menuitem id="menu_broker_categ" name="Broker Management" sequence="15" groups="group_broker_management"/>
+        <menuitem id="menu_units_pre_contract_categ"
+                  name="Unit Reservation"
+                  parent="menu_broker_categ"
+                  action="action_units_pre_contract_view"
+                  sequence="2"/>
+        <menuitem id="menu_broker_request_categ"
+                  name="Contract"
+                  parent="menu_broker_categ"
+                  action="action_broker_request_view"
+                  sequence="1"/>
+        <menuitem id="menu_broker_units_categ"
+                  name="Units"
+                  parent="menu_broker_categ"
+                  action="action_broker_units_view"
+                  sequence="2"/>
+        <menuitem id="menu_reports_view"
+                  name="Reports"
+                  parent="menu_broker_categ"
+                  sequence="3"/>
+        <menuitem id="menu_configurations_view"
+                  name="Configurations"
+                  parent="menu_broker_categ"
+                  sequence="4"/>
+        <menuitem id="menu_unit_projects_view"
+                  name="Projects"
+                  parent="menu_configurations_view"
+                  action="action_unit_projects_view"
+                  sequence="1"/>
+<!--        <menuitem id="menu_broker_teams_view"-->
+<!--                  name="Teams"-->
+<!--                  parent="menu_configurations_view"-->
+<!--                  action="action_broker_teams_view"-->
+<!--                  sequence="2"/>-->
+        <menuitem id="menu_mobile_data_view"
+                  name="Customers"
+                  parent="menu_configurations_view"
+                  action="action_mobile_data_view"
+                  sequence="2"/>
+          <menuitem id="menu_sales_target"
+                  name="Commission Setup"
+                  parent="menu_configurations_view"
+                  action="action_sales_target_view"
+                  sequence="3"/>
+         <menuitem id="menu_emp_sales_target"
+                  name="Target Setup"
+                  parent="menu_configurations_view"
+                  action="action_emp_sales_target_view"
+                  sequence="4"/>
+        <menuitem id="menu_broker_bouns_setup"
+                  name="Bonus Setup"
+                  parent="menu_configurations_view"
+                  action="action_broker_bouns_view"
+                  sequence="4"/>
+        <menuitem id="menu_sales_person_commission_report"
+                  name="Sales Commissions And Incentives"
+                  parent="menu_reports_view"
+                  action="action_sales_person_commission_report_view"
+                  sequence="1"/>
+        <menuitem id="menu_emp_sales_target_report"
+                  name="Target Report"
+                  parent="menu_reports_view"
+                  action="action_emp_sales_target_report"
+                  sequence="2"/>
+    </data>
+</odoo>
