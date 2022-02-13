@@ -33,6 +33,8 @@
         'views/contract_report.xml',
         'views/emp_sales_target_report.xml',
         'views/sales_person_commissions_report.xml',
+        'views/bouns_commissions_report.xml',
+        'views/incentive_commissions_report.xml',
         'views/hr_employee_inherit.xml',
         'views/res_partner_view.xml',
         'views/emp_sales_target.xml',

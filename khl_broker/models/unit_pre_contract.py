@@ -23,7 +23,7 @@ class UnitPreContrct(models.Model):
     employee_ids = fields.Many2many('hr.employee', relation="unit_pre_contract_employees_rel", string="Sales Persons")
     notes = fields.Text(string="Notes")
     state = fields.Selection([
-        ('draft', 'Draft'),
+        ('pending', 'Pending'),
         ('confirmed', 'Confirmed'),
     ], 'State', index=True, default="draft", tracking=True)
 

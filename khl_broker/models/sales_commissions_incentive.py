@@ -24,3 +24,4 @@ class SalesCommissionsAndIncentives(models.Model):
     remaing_amount = fields.Float(string="Remaining Amount")
     type = fields.Selection(string="Type",
                             selection=[('incentive', 'Incentive'), ('commission', 'Commission'), ('bouns', 'Bouns')])
+    contract_no = fields.Char(related='broker_request_id.name', readonly=1)

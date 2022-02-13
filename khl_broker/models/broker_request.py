@@ -68,6 +68,9 @@ class BrokerRequest(models.Model):
     def calculate_incentive(self):
         for rec in self:
             vals = []
+            prev_recs = self.env['sales.commissions.incentives'].search([('broker_request_id', '=', rec.id)])
+            if prev_recs:
+                prev_recs.unlink()
             for employee in rec.user_ids:
                 if rec.sales_person_incentive_type == 'percentage' and rec.incentive_sales_person_percentage > 0:
                     incentive_value = (rec.price * (rec.incentive_sales_person_percentage / 100)) / len(rec.user_ids)

@@ -9,7 +9,7 @@
                     <header>
                         <button name="check_mobile" string="Check Customer Mobile" type="object" states="draft"
                                 class="oe_highlight"/>
-                        <button name="confirm" string="Confirm" type="object" states="draft" class="oe_highlight"/>
+                        <button name="confirm" string="Confirm" type="object" states="pending" class="oe_highlight"/>
                         <field name="state" widget="statusbar"/>
                     </header>
                     <sheet>

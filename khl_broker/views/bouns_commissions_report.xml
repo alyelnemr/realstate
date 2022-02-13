@@ -1,54 +1,58 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <data>
-        <record id="view_sales_person_commission_report_tree" model="ir.ui.view">
-            <field name="name">view.sales.person.commission.report.tree</field>
+        <record id="view_bouns_commission_report_tree" model="ir.ui.view">
+            <field name="name">view.bouns.commission.report.tree</field>
             <field name="model">sales.commissions.incentives</field>
             <field name="arch" type="xml">
-                <tree string="Sales Persons Commission Report" create="0" delete="1" edit="1"
+                <tree string="Bouns Report" create="0" delete="1" edit="1"
                       duplicate="0" editable="bottom">
                     <field name="name" readonly="1" string="Type"/>
                     <field name="employee_id" readonly="1" options="{'no_create': True, 'no_open': True}"/>
                     <field name="job_id" readonly="1" options="{'no_create': True, 'no_open': True}"/>
-                    <field name="broker_request_id" readonly="1" options="{'no_create': True, 'no_open': True}" string="Contract No."/>
+                    <field name="contract_no" readonly="1" string="Contract No."/>
                     <field name="unit_id" readonly="1" options="{'no_create': True, 'no_open': True}"/>
-                    <field name="unit_amount" readonly="1" string="Company Commission"/>
-                    <field name="commission_percentage" readonly="1" string="Emp Commission %"/>
-                    <field name="commission_amount" readonly="1" string="Emp Commission Amount"/>
-                    <field name="due_date" string="Commission Due Date" readonly="1"/>
+                    <field name="unit_amount" readonly="1" string="Company Commission" sum="total"/>
+                    <field name="bouns_value" readonly="1" sum="total"/>
+                    <field name="due_date" string="Commission Due Date"/>
                     <field name="make_payroll"/>
                     <field name="is_paid" readonly="1"/>
                 </tree>
             </field>
         </record>
 
-        <record model="ir.ui.view" id="view_commission_report_graph">
-            <field name="name">Sales Person Commissions Report</field>
+        <record model="ir.ui.view" id="view_sales_person_commission_report_graph">
+            <field name="name">Bouns Report</field>
             <field name="model">sales.commissions.incentives</field>
             <field name="arch" type="xml">
                 <graph string="Broker Request Graph">
                     <field name="employee_id" type="row"/>
-                    <field name="commission_amount" type="measure"/>
+                    <field name="bouns_value" type="measure"/>
                 </graph>
             </field>
         </record>
 
-        <record model="ir.ui.view" id="view_commission_report_pivot">
-            <field name="name">Sales Person Commissions Report</field>
+        <record model="ir.ui.view" id="view_sales_person_commission_report_pivot">
+            <field name="name">Bouns Report</field>
             <field name="model">sales.commissions.incentives</field>
             <field name="arch" type="xml">
                 <pivot string="Sales Person Commissions Report" disable_linking="True">
                     <field name="employee_id" type="row"/>
-                    <field name="commission_amount" type="measure"/>
+                    <field name="bouns_value" type="measure"/>
                 </pivot>
             </field>
         </record>
 
-        <record id="view_sales_person_commission_report_search" model="ir.ui.view">
-            <field name="name">sales.person.commission.report.search</field>
+        <record id="view_bouns_report_search" model="ir.ui.view">
+            <field name="name">sales.bouns.report.search</field>
             <field name="model">sales.commissions.incentives</field>
             <field name="arch" type="xml">
-                <search string="Sales Persons Commission Report">
+                <search string="Sales Persons Commission And Bouns Report">
+                    <field name="name" readonly="1" string="Type"/>
+                    <field name="employee_id"/>
+                    <field name="job_id"/>
+                    <field name="broker_request_id" string="Contract No."/>
+                    <field name="unit_id"/>
                     <group expand="0" string="Group By">
                         <filter string="Employee" name="employee_id" context="{'group_by': 'employee_id'}"/>
                         <filter string="Contract" name="broker_request_id" context="{'group_by': 'broker_request_id'}"/>
@@ -57,11 +61,11 @@
             </field>
         </record>
 
-        <record id="action_sales_person_commission_report_view" model="ir.actions.act_window">
-            <field name="name">Commissions Report</field>
+        <record id="action_bouns_report_view" model="ir.actions.act_window">
+            <field name="name">Bouns Report</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">sales.commissions.incentives</field>
-            <field name="domain">[('type','=','commission')]</field>
+            <field name="domain">[('type','=','bouns')]</field>
             <field name="view_mode">tree,form,graph,pivot</field>
         </record>
     </data>

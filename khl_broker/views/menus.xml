@@ -55,15 +55,27 @@
                   parent="menu_configurations_view"
                   action="action_broker_bouns_view"
                   sequence="4"/>
-        <menuitem id="menu_sales_person_commission_report"
-                  name="Sales Commissions And Incentives"
+         <menuitem id="menu_sales_person_commission_report"
+                  name="Commissions Report"
                   parent="menu_reports_view"
                   action="action_sales_person_commission_report_view"
                   sequence="1"/>
+
+         <menuitem id="bouns_report"
+                  name="Bouns Report"
+                  parent="menu_reports_view"
+                  action="action_bouns_report_view"
+                  sequence="2"/>
+
+         <menuitem id="incentive_report"
+                  name="Incentives Report"
+                  parent="menu_reports_view"
+                  action="action_incentive_report_view"
+                  sequence="3"/>
         <menuitem id="menu_emp_sales_target_report"
                   name="Target Report"
                   parent="menu_reports_view"
                   action="action_emp_sales_target_report"
-                  sequence="2"/>
+                  sequence="4"/>
     </data>
 </odoo>
