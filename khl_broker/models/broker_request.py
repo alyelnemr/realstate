@@ -253,6 +253,10 @@ class BrokerRequest(models.Model):
         self.get_sales_target_for_user()
         self.update_achieved_amount()
         self.get_employee_bouns_value()
+        if self.pre_contract_reservation_id:
+            self.pre_contract_reservation_id.write({
+                'state': 'contract'
+            })
 
     def get_employee_bouns_value(self):
         for rec in self:

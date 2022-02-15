@@ -25,6 +25,7 @@ class UnitPreContrct(models.Model):
     state = fields.Selection([
         ('pending', 'Pending'),
         ('confirmed', 'Confirmed'),
+        ('contract', 'Contract'),
     ], 'State', index=True, default="draft", tracking=True)
 
     contract_count = fields.Integer(string="Contract Count", compute='compute_contract_count')
