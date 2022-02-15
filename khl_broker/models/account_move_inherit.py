@@ -19,6 +19,6 @@ class AccountMoveInherit(models.Model):
         for rec in self:
             if rec.currency_id:
                 txt = self.currency_id.with_context(lang='ar_SY').amount_to_text(amount)
-                return txt
+                return txt.replace("and", "و")
             else:
                 return ''
