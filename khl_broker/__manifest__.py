@@ -31,6 +31,7 @@
         'views/broker_bouns.xml',
         'views/unit_reservation_report.xml',
         'views/contract_report.xml',
+        'views/account_invoice_report.xml',
         'views/emp_sales_target_report.xml',
         'views/sales_person_commissions_report.xml',
         'views/bouns_commissions_report.xml',
