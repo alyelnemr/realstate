@@ -13,25 +13,25 @@
                 <tbody>
                     <tr>
                         <td style="width: 25%; text-align:right;White-space: nowrap;">
-                            <div style="font-size:12px">
-                                <span style="White-space: nowrap;">اسم الشركة:</span>
+                            <div style="font-size:16px">
                                 <span t-esc="company.name"/>
-                            </div>
-                            <div style="font-size:12px">
-                                <span style="White-space: nowrap;">رقم السجل التجارى:</span>
-                                <span t-esc="company.company_registry"/>
-                            </div>
-                            <div style="font-size:12px">
-                                <span style="White-space: nowrap;">رقم البطاقة الضريبية:</span>
-                                <span t-esc="company.vat"/>
+                                <br/>
+                                <span t-esc="company.alias_name"/>
                             </div>
                         </td>
-                        <td style="width: 75%; text-align : left">
-                            <img
-                                    t-if="company.logo"
-                                    style="max-height:85px;"
-                                    t-att-src="'data:image/png;base64,%s' % to_text(company.logo)"
-                            />
+                        <td style="width: 50%; text-align : left">
+                            <div style="font-size:12px">
+                                <span style="White-space: nowrap;">س.ت:</span>
+                                <span t-esc="company.st"/>
+                            </div>
+                            <div style="font-size:12px">
+                                <span style="White-space: nowrap;">م.ض:</span>
+                                <span t-esc="company.md"/>
+                            </div>
+                            <div style="font-size:12px">
+                                <span style="White-space: nowrap;">رقم التسجيل الضريبى:</span>
+                                <span t-esc="company.vat"/>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
@@ -48,175 +48,215 @@
             </div>
             <t t-out="0"/>
         </div>
-        <div t-attf-class="footer o_standard_footer o_company_#{company.id}_layout">
-            <div class="company_details">
-                <table>
-                    <tr>
-                        <td>
-                            <ul class="list-inline">
-                                <li t-if="company.street">
-                                    <span t-field="company.street"/>
-                                </li>
-                                <li>
-                                    <span t-if="company.city" t-field="company.city"/>
-                                    -
-                                    <span t-field="company.country_id.name"/>
-                                </li>
-                                <li t-if="company.phone">
-                                    <span t-field="company.phone"/>
-                                </li>
-                                <li t-if="company.email">
-                                    <span t-field="company.email"/>
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </div>
+        <!--        <div t-attf-class="footer o_standard_footer o_company_#{company.id}_layout">-->
+        <!--            <div class="company_details">-->
+        <!--                <table>-->
+        <!--                    <tr>-->
+        <!--                        <td>-->
+        <!--                            <ul class="list-inline">-->
+        <!--                                <li t-if="company.street">-->
+        <!--                                    <span t-field="company.street"/>-->
+        <!--                                </li>-->
+        <!--                                <li>-->
+        <!--                                    <span t-if="company.city" t-field="company.city"/>-->
+        <!--                                    - -->
+        <!--                                    <span t-field="company.country_id.name"/>-->
+        <!--                                </li>-->
+        <!--                                <li t-if="company.phone">-->
+        <!--                                    <span t-field="company.phone"/>-->
+        <!--                                </li>-->
+        <!--                                <li t-if="company.email">-->
+        <!--                                    <span t-field="company.email"/>-->
+        <!--                                </li>-->
+        <!--                            </ul>-->
+        <!--                        </td>-->
+        <!--                    </tr>-->
+        <!--                </table>-->
+        <!--            </div>-->
+        <!--        </div>-->
     </template>
     <template id="account_move_template_id">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
-                <t t-call="broker_managment.account_move_report_layout">
+                <t t-call="khl_broker.account_move_report_layout">
                     <div class="page">
-                        <h3 style="text-align:center;">فاتورة مبيعات</h3>
-                        <table width="100%" class="table-bordered">
+                        <h4 style="text-align: center;">فاتورة
+                            <t t-esc="o.name"/>
+                        </h4>
+                        <p style="text-align: right;">
+                            <span dir="rtl">تحريرا فى :
+                                <span t-esc="o.invoice_date"/>
+                            </span>
+                        </p>
+                        <p style="text-align: right;">
+                            <span dir="rtl">السادة شركة :
+                                <span t-esc="o.partner_id.name"/>
+                            </span>
+                        </p>
+                        <table style="width: 100%; direction:rtl;border-collapse: separate;" border="1">
                             <tbody>
                                 <tr>
-                                    <td style="text-align: center;">
-                                        <span t-esc="o.partner_id.name"/>
-                                    </td>
-                                    <td style="text-align: center;">
-                                        <span>السادة</span>
-                                    </td>
-                                    <td style="text-align: center;">
-                                        <span t-esc="o.name"/>
-                                    </td>
-                                    <td style="text-align: center;">
-                                        <span>رقم الفاتورة</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: center;">
-                                        <div t-field="o.partner_id"
-                                             t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
-                                    </td>
-                                    <td style="text-align: center;">
-                                        <span>العنوان</span>
-                                    </td>
-                                    <td style="text-align: center;">
-                                        <span t-esc="o.invoice_date"/>
-                                    </td>
-                                    <td style="text-align: center;">
-                                        <span>تاريخ الفاتورة</span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <br/>
-                        <table style="width: 100%; height: auto; direction:rtl">
-                            <thead>
-                                <tr style="background-color: #c2c2c2;">
-                                    <th style=" border : 1px solid #bbbbbb; text-align:center; padding: 5px 5px 5px 5px; font-weight : normal; font-size : 14px"
-                                        rowspan="2">
-                                        الصنف
-                                    </th>
-                                    <th style=" border : 1px solid #bbbbbb; text-align:center; padding: 5px 5px 5px 5px; font-weight : normal; font-size : 14px"
-                                        rowspan="2">
-                                        الوصف
-                                    </th>
-                                    <th style=" border : 1px solid #bbbbbb; text-align:center; padding: 5px 5px 5px 5px; font-weight : normal; font-size : 14px"
-                                        rowspan="2">
-                                        الكمية
-                                    </th>
-                                    <th style=" border : 1px solid #bbbbbb; text-align:center; padding: 5px 5px 5px 5px; font-weight : normal; font-size : 14px"
-                                        rowspan="2">
-                                        السعر
-                                    </th>
-                                    <th style=" border : 1px solid #bbbbbb; text-align:center; padding: 5px 5px 5px 5px; font-weight : normal; font-size : 14px"
-                                        rowspan="2">
+                                    <td style="text-align: center;" colspan="2">اجمالى
                                         القيمة
-                                    </th>
+                                    </td>
+                                    <td style="text-align: center;width:60%;" rowspan="2">البيان</td>
                                 </tr>
-                            </thead>
-                            <tbody>
+                                <tr>
+                                    <td style="text-align: center;">قرش</td>
+                                    <td style="text-align: center;">جنية</td>
+                                </tr>
                                 <t t-foreach="o.invoice_line_ids" t-as="line">
                                     <tr>
-                                        <td style=" border : 1px solid #bbbbbb; text-align:center; padding: 5px 5px 5px 5px;">
-                                            <t t-esc="line.product_id.name"/>
+                                        <td style="text-align: center;">
+                                            <span t-esc="round(o.return_value_details(line.price_unit),2)"/>
                                         </td>
-                                        <td style=" border : 1px solid #bbbbbb; text-align:center; padding: 5px 5px 5px 5px;">
-                                            <t t-esc="line.name"/>
+                                        <td style="text-align: center;">
+                                            <span t-esc="int(line.price_unit)"/>
                                         </td>
-                                        <td style=" border : 1px solid #bbbbbb; text-align:center; padding: 5px 5px 5px 5px;">
-                                            <t t-esc="line.quantity"/>
-                                        </td>
-                                        <td style=" border : 1px solid #bbbbbb; text-align:center; padding: 5px 5px 5px 5px;">
-                                            <t t-esc="line.price_unit"/>
-                                        </td>
-                                        <td style=" border : 1px solid #bbbbbb; text-align:center; padding: 5px 5px 5px 5px;">
-                                            <t t-esc="round(line.price_subtotal,2)"/>
+                                        <td style="text-align: center;">
+                                            عمولة بيع الوحدة رقم (
+                                            <span t-esc="o.unit_id.name"/>
+                                            )
                                         </td>
                                     </tr>
                                 </t>
-                                <tr>
-                                    <th style="border: 1px solid #bbbbbb; text-align: center; padding: 5px; font-weight: normal; font-size: 14px; width:25%;">
-                                        الاجمالي قبل الضريبة
-                                    </th>
-                                    <th style="border: 1px solid #bbbbbb; text-align: center; padding: 5px; font-weight: normal; font-size: 14px;"
-                                        colspan="4">
-                                        <span t-esc="o.amount_untaxed"/>
-                                    </th>
-                                </tr>
                                 <t t-foreach="o.get_detailed_taxes()" t-as="tax">
                                     <tr>
-                                        <th style="border: 1px solid #bbbbbb; text-align: center; padding: 5px; font-weight: normal; font-size: 14px; width:25%;">
+                                        <td style="text-align: center;">
+                                            <span t-esc="round(o.return_value_details(o.get_detailed_taxes()[tax]),2)"/>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <span t-esc="int(o.get_detailed_taxes()[tax])"/>
+                                        </td>
+                                        <td style="text-align: center;">
                                             <span t-esc="tax"/>
-                                        </th>
-                                        <th style="border: 1px solid #bbbbbb; text-align: center; padding: 5px; font-weight: normal; font-size: 14px;"
-                                            colspan="4">
-                                            <span t-esc="round(o.get_detailed_taxes()[tax],2)"/>
-                                        </th>
+                                        </td>
                                     </tr>
                                 </t>
                                 <tr>
-                                    <th style="border: 1px solid #bbbbbb; text-align: center; padding: 5px; font-weight: normal; font-size: 14px; width:25%;">
-                                        الاجمالي بعد الضريبة
-                                    </th>
-                                    <th style="border: 1px solid #bbbbbb; text-align: center; padding: 5px; font-weight: normal; font-size: 14px;"
-                                        colspan="4">
-                                        <span t-esc="round(o.amount_total,2)"/>
-                                    </th>
+                                    <td style="text-align: center;">
+                                        <span t-esc="round(o.return_value_details(o.amount_total),2)"/>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span t-esc="int(o.amount_total)"/>
+                                    </td>
+                                    <td style="text-align: center;">الصافى</td>
+                                </tr>
+                                <tr style="height: 18px;">
+                                    <td style="text-align: center; height: 18px;" colspan="2" rowspan="7"></td>
+                                    <td style="text-align: center; height: 18px;" rowspan="7"></td>
+                                </tr>
+                                <tr style="height: 18px;">
+                                </tr>
+                                <tr style="height: 18px;">
+                                </tr>
+                                <tr style="height: 18px;">
+                                </tr>
+                                <tr style="height: 18px;">
+                                </tr>
+                                <tr style="height: 18px;">
+                                </tr>
+                                <tr style="height: 18px;">
                                 </tr>
                                 <tr>
-                                    <th style="border: 1px solid #bbbbbb; text-align: center; padding: 5px; font-weight: normal; font-size: 14px; width:25%;">
-                                        الاجمالي بالحروف
-                                    </th>
-                                    <th style="border: 1px solid #bbbbbb; text-align: center; padding: 5px; font-weight: normal; font-size: 14px;"
-                                        colspan="4">
+                                    <td style="text-align: center;">
+                                        <span t-esc="round(o.return_value_details(o.amount_total),2)"/>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span t-esc="int(o.amount_total)"/>
+                                    </td>
+                                    <td style="text-align: center;">
                                         <span t-esc="o.get_amount_in_ar(o.amount_total)"/>
-                                    </th>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
+                        <!--                        <table style="width: 100%; height: auto; direction:rtl">-->
+                        <!--                            <thead>-->
+                        <!--                                <tr style="background-color: #c2c2c2;">-->
+                        <!--                                    <th style=" border : 1px solid #bbbbbb; text-align:center; padding: 5px 5px 5px 5px; font-weight : normal; font-size : 14px"-->
+                        <!--                                        rowspan="2">-->
+                        <!--                                        الصنف-->
+                        <!--                                    </th>-->
+                        <!--                                    <th style=" border : 1px solid #bbbbbb; text-align:center; padding: 5px 5px 5px 5px; font-weight : normal; font-size : 14px"-->
+                        <!--                                        rowspan="2">-->
+                        <!--                                        الوصف-->
+                        <!--                                    </th>-->
+                        <!--                                    <th style=" border : 1px solid #bbbbbb; text-align:center; padding: 5px 5px 5px 5px; font-weight : normal; font-size : 14px"-->
+                        <!--                                        rowspan="2">-->
+                        <!--                                        الكمية-->
+                        <!--                                    </th>-->
+                        <!--                                    <th style=" border : 1px solid #bbbbbb; text-align:center; padding: 5px 5px 5px 5px; font-weight : normal; font-size : 14px"-->
+                        <!--                                        rowspan="2">-->
+                        <!--                                        السعر-->
+                        <!--                                    </th>-->
+                        <!--                                    <th style=" border : 1px solid #bbbbbb; text-align:center; padding: 5px 5px 5px 5px; font-weight : normal; font-size : 14px"-->
+                        <!--                                        rowspan="2">-->
+                        <!--                                        القيمة-->
+                        <!--                                    </th>-->
+                        <!--                                </tr>-->
+                        <!--                            </thead>-->
+                        <!--                            <tbody>-->
+                        <!--                                <t t-foreach="o.invoice_line_ids" t-as="line">-->
+                        <!--                                    <tr>-->
+                        <!--                                        <td style=" border : 1px solid #bbbbbb; text-align:center; padding: 5px 5px 5px 5px;">-->
+                        <!--                                            <t t-esc="line.product_id.name"/>-->
+                        <!--                                        </td>-->
+                        <!--                                        <td style=" border : 1px solid #bbbbbb; text-align:center; padding: 5px 5px 5px 5px;">-->
+                        <!--                                            <t t-esc="line.name"/>-->
+                        <!--                                        </td>-->
+                        <!--                                        <td style=" border : 1px solid #bbbbbb; text-align:center; padding: 5px 5px 5px 5px;">-->
+                        <!--                                            <t t-esc="line.quantity"/>-->
+                        <!--                                        </td>-->
+                        <!--                                        <td style=" border : 1px solid #bbbbbb; text-align:center; padding: 5px 5px 5px 5px;">-->
+                        <!--                                            <t t-esc="line.price_unit"/>-->
+                        <!--                                        </td>-->
+                        <!--                                        <td style=" border : 1px solid #bbbbbb; text-align:center; padding: 5px 5px 5px 5px;">-->
+                        <!--                                            <t t-esc="round(line.price_subtotal,2)"/>-->
+                        <!--                                        </td>-->
+                        <!--                                    </tr>-->
+                        <!--                                </t>-->
+                        <!--                                <tr>-->
+                        <!--                                    <th style="border: 1px solid #bbbbbb; text-align: center; padding: 5px; font-weight: normal; font-size: 14px; width:25%;">-->
+                        <!--                                        الاجمالي قبل الضريبة-->
+                        <!--                                    </th>-->
+                        <!--                                    <th style="border: 1px solid #bbbbbb; text-align: center; padding: 5px; font-weight: normal; font-size: 14px;"-->
+                        <!--                                        colspan="4">-->
+                        <!--                                        <span t-esc="o.amount_untaxed"/>-->
+                        <!--                                    </th>-->
+                        <!--                                </tr>-->
+                        <!--                                                        <t t-foreach="o.get_detailed_taxes()" t-as="tax">-->
+                        <!--                                                            <tr>-->
+                        <!--                                                                <th style="border: 1px solid #bbbbbb; text-align: center; padding: 5px; font-weight: normal; font-size: 14px; width:25%;">-->
+                        <!--                                                                    <span t-esc="tax"/>-->
+                        <!--                                                                </th>-->
+                        <!--                                                                <th style="border: 1px solid #bbbbbb; text-align: center; padding: 5px; font-weight: normal; font-size: 14px;"-->
+                        <!--                                                                    colspan="4">-->
+                        <!--                                                                    <span t-esc="round(o.get_detailed_taxes()[tax],2)"/>-->
+                        <!--                                                                </th>-->
+                        <!--                                                            </tr>-->
+                        <!--                                                        </t>-->
+                        <!--                                <tr>-->
+                        <!--                                    <th style="border: 1px solid #bbbbbb; text-align: center; padding: 5px; font-weight: normal; font-size: 14px; width:25%;">-->
+                        <!--                                        الاجمالي بعد الضريبة-->
+                        <!--                                    </th>-->
+                        <!--                                    <th style="border: 1px solid #bbbbbb; text-align: center; padding: 5px; font-weight: normal; font-size: 14px;"-->
+                        <!--                                        colspan="4">-->
+                        <!--                                        <span t-esc="round(o.amount_total,2)"/>-->
+                        <!--                                    </th>-->
+                        <!--                                </tr>-->
+                        <!--                                <tr>-->
+                        <!--                                    <th style="border: 1px solid #bbbbbb; text-align: center; padding: 5px; font-weight: normal; font-size: 14px; width:25%;">-->
+                        <!--                                        الاجمالي بالحروف-->
+                        <!--                                    </th>-->
+                        <!--                                    <th style="border: 1px solid #bbbbbb; text-align: center; padding: 5px; font-weight: normal; font-size: 14px;"-->
+                        <!--                                        colspan="4">-->
+                        <!--                                        <span t-esc="o.get_amount_in_ar(o.amount_total)"/>-->
+                        <!--                                    </th>-->
+                        <!--                                </tr>-->
+                        <!--                            </tbody>-->
+                        <!--                        </table>-->
                         <br/>
-                         <table width="100%">
-                            <tbody>
-                                <tr>
-                                    <td>
-                                    </td>
-                                    <td style="text-align: left;">
-                                        <span>المحاسب</span>
-                                    </td>
-                                    <td>
-                                    </td>
-                                    <td style="text-align: right;">
-                                        <span>المدير المالى</span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                         </table>
                     </div>
                 </t>
             </t>
@@ -224,11 +264,11 @@
     </template>
 
     <record id="account_move_report_id" model="ir.actions.report">
-        <field name="name">Broker Invoice</field>
+        <field name="name">KHL Invoice</field>
         <field name="model">account.move</field>
         <field name="report_type">qweb-pdf</field>
-        <field name="report_name">broker_managment.account_move_template_id</field>
-        <field name="report_file">broker_managment.account_move_template_id</field>
+        <field name="report_name">khl_broker.account_move_template_id</field>
+        <field name="report_file">khl_broker.account_move_template_id</field>
         <field name="binding_model_id" ref="account.model_account_move"/>
         <field name="binding_type">report</field>
     </record>

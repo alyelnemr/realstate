@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="view_commission_request_report_wizard" model="ir.ui.view">
+            <field name="name">Commission Request Report</field>
+            <field name="model">commission.request.report</field>
+            <field name="arch" type="xml">
+                <form string="Commission Request Report">
+                    <group>
+                        <field name="report_type" required="1"/>
+                    </group>
+                    <footer>
+                        <button name="print" string="Print" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

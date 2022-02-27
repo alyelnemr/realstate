@@ -14,6 +14,7 @@ access_sales_commissions_incentives,access_sales_commissions_incentives,model_sa
 access_emp_sales_target,access_emp_sales_target,model_emp_sales_target,,1,1,1,1
 access_emp_sales_target_lines,access_emp_sales_target_lines,model_emp_sales_target_lines,,1,1,1,1
 access_emp_sales_target_report,access_emp_sales_target_report,model_emp_sales_target_report,,1,1,1,1
+access_commission_request_report,access_commission_request_report,model_commission_request_report,,1,1,1,1
 
 
 

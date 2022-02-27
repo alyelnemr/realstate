@@ -1,82 +1,340 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
+    <template id="broker_invoice_report_layout">
+        <!-- Multicompany -->
+        <t t-if="o and 'company_id' in o">
+            <t t-set="company" t-value="o.company_id"/>
+        </t>
+        <t t-if="not o or not 'company_id' in o">
+            <t t-set="company" t-value="res_company"/>
+        </t>
+        <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
+            <div class="row">
+                <!--                <div class="col-3 mb4">-->
+                <!--                    <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height:90px;"-->
+                <!--                         alt="Logo"/>-->
+                <!--                </div>-->
+                <!--                <div class="col-9 text-right" style="margin-top:22px;" t-field="company.report_header" name="moto"/>-->
+            </div>
+            <!--            <div t-if="company.logo or company.report_header" class="row zero_min_height">-->
+            <!--                <div class="col-12">-->
+            <!--                    <div style="border-bottom: 1px solid black;"/>-->
+            <!--                </div>-->
+            <!--            </div>-->
+            <!--            <div class="row">-->
+            <!--                <div class="company_details">-->
+            <!--                <table>-->
+            <!--                    <tr>-->
+            <!--                        <td>-->
+            <!--                            <ul class="list-inline">-->
+            <!--                                <li t-if="company.name"><span t-field="company.name"/></li>-->
+            <!--                                <li>-->
+            <!--                                    <span t-field="company.country_id.name"/>-->
+            <!--                                </li>-->
+            <!--                            </ul>-->
+            <!--                        </td>-->
+            <!--                    </tr>-->
+            <!--                </table>-->
+            <!--            </div>-->
+            <!--            </div>-->
+        </div>
+
+        <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout {{  'o_layout_background' if company.layout_background in ['Geometric', 'Custom']  else  '' }}"
+             t-attf-style="background-image: url({{ 'data:image/png;base64,%s' % company.layout_background_image.decode('utf-8') if company.layout_background_image and company.layout_background == 'Custom' else '/base/static/img/bg_background_template.jpg' if company.layout_background == 'Geometric' else ''}});"
+             t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+             t-att-data-oe-lang="o and o.env.context.get('lang')">
+            <!--            <div class="pt-5">-->
+            <!--                &lt;!&ndash; This div ensures that the address is not cropped by the header. &ndash;&gt;-->
+            <!--                <t t-call="web.address_layout"/>-->
+            <!--            </div>-->
+            <t t-out="0"/>
+        </div>
+        <!--        <div t-attf-class="footer o_standard_footer o_company_#{company.id}_layout">-->
+        <!--            <div class="company_details">-->
+        <!--                <table>-->
+        <!--                    <tr>-->
+        <!--                        <td>-->
+        <!--                            <ul class="list-inline">-->
+        <!--                                <li t-if="company.street">-->
+        <!--                                    <span t-field="company.street"/>-->
+        <!--                                </li>-->
+        <!--                                <li>-->
+        <!--                                    <span t-if="company.city" t-field="company.city"/>-->
+        <!--                                    - -->
+        <!--                                    <span t-field="company.country_id.name"/>-->
+        <!--                                </li>-->
+        <!--                                <li t-if="company.phone">-->
+        <!--                                    <span t-field="company.phone"/>-->
+        <!--                                </li>-->
+        <!--                                <li t-if="company.email">-->
+        <!--                                    <span t-field="company.email"/>-->
+        <!--                                </li>-->
+        <!--                            </ul>-->
+        <!--                        </td>-->
+        <!--                    </tr>-->
+        <!--                </table>-->
+        <!--            </div>-->
+        <!--        </div>-->
+    </template>
     <template id="commission_request_template_id">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
-                <t t-call="web.external_layout">
+                <t t-call="khl_broker.broker_invoice_report_layout">
                     <div class="page">
+                        <h4 style="text-align:center;">مطالبة</h4>
+                        <br/>
+                        <!--                        <p style="text-align: right;">-->
+                        <!--                            <span dir="rtl">السادة شركة :-->
+                        <!--                                <span t-esc="o.developer_company.name"/>-->
+                        <!--                            </span>-->
+                        <!--                        </p>-->
                         <p style="text-align: right;">
-                            <span dir="rtl">السادة شركة :
-                                <span t-esc="o.developer_company.name"/>
+                            <span dir="rtl">محرر بتاريخ
+                                <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d')"/>
                             </span>
                         </p>
                         <p style="text-align: right;">
-                            <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
+                            <span dir="rtl">السادة
+                                <span t-esc="o.broker_request_id.developer_company.name"/>
+                            </span>
                         </p>
-                        <p style="text-align: right;">
-                            <span>يرجى صرف</span>
+                        <p style="text-align: center;" dir="rtl">
+                            <span>تحية طيبة .... وبعد ,,,,</span>
                         </p>
-                        <p style="text-align: right;">
-                            <span>-: وبيانتها كالتالى</span>
-                        </p>
-                        <table width="100%" class="table-bordered">
-                            <tbody>
-                                <tr>
-                                    <td style="text-align: center;width:75%">
-                                        <span t-esc="o.customer_id.customer_name"/>
-                                    </td>
-                                    <td style="text-align: center;background-color: #c9c9c9;width:25%">
-                                        <span>اسم العميل</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: center;">
-                                        <span t-esc="o.unit_code"/>
-                                    </td>
-                                    <td style="text-align: center;background-color: #c9c9c9;">
-                                        <span>رقم الوحدة</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: center;">
-                                        <span t-esc="o.floor"/>
-                                    </td>
-                                    <td style="text-align: center;background-color: #c9c9c9;">
-                                        <span>الدور</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: center;">
-                                        <span t-esc="o.space"/>
-                                    </td>
-                                    <td style="text-align: center;background-color: #c9c9c9;">
-                                        <span>المساحة</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: center;">
-                                        <span t-esc="o.price"/>
-                                    </td>
-                                    <td style="text-align: center;background-color: #c9c9c9;">
-                                        <span>أجمالى قيمة الوحدة</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: center;">
-                                        <span t-esc="o.project_id.name"/>
-                                    </td>
-                                    <td style="text-align: center;background-color: #c9c9c9;">
-                                        <span>اسم المشروع</span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
                         <br/>
                         <p style="text-align: right;">
-                            <p style="text-align: right;">يرجى اصدار ايصال /<span t-esc="o.company_amount_after_internal_taxes"/>  بأسم شركة توب مانجيمنت للتسويق العقارى </p>
+                            <span dir="rtl">مقدمة لسيادتكم شركة /
+                                <span t-esc="o.broker_request_id.company_id.name"/>
+                            </span>
                         </p>
-                        <p style="text-align: center;">وتفضلوا بقيول وافر الاحترام,,,,,,</p>
-                        <p style="text-align: center;">:التوقيع</p>
+                        <!--                        <p style="text-align: right;">-->
+                        <!--                            <span dir="rtl"> سجل تجارى رقم /-->
+                        <!--                                <span t-esc="o.broker_request_id.company_id.vat"/>-->
+                        <!--                            </span>-->
+                        <!--                        </p>-->
+                        <p style="text-align: right;">
+                            <span dir="rtl">يطاقة ضريبية رقم /
+                                <span t-esc="o.broker_request_id.company_id.company_registry"/>
+                            </span>
+                        </p>
+                        <br/>
+                        <t t-if="o.report_type == 'commission'">
+                            <p style="text-align: right;">
+                                <span dir="rtl">الموضوع /
+                                    (مطالبة عمولة بيع وحدة / مكتب) بقيمة (<span
+                                            t-esc="o.broker_request_id.developer_percentage"/>)
+                                </span>
+                            </p>
+                        </t>
+                        <t t-else="">
+                            <p style="text-align: right;">
+                                <span dir="rtl">الموضوع /
+                                    (مطالبة حافز بيع وحدة / ادارية) بقيمة (<span
+                                            t-esc="o.broker_request_id.developer_percentage"/>)
+                                </span>
+                            </p>
+                        </t>
+
+                        <p style="text-align: right;">
+                            <span dir="rtl">اسم المشروع /
+                                <span t-esc="o.broker_request_id.project_id.name"/>
+                            </span>
+                        </p>
+                        <p style="text-align: right;">
+                            <span dir="rtl">اسم العميل /
+                                <span t-esc="o.broker_request_id.customer_id.customer_name"/>
+                            </span>
+                        </p>
+                        <p style="text-align: right;">
+                            <span dir="rtl">رقم الوحدة /
+                                <span t-esc="o.broker_request_id.unit_code"/>
+                            </span>
+                        </p>
+                        <t t-if="o.report_type == 'commission'">
+                            <p style="text-align: right;">
+                                <span dir="rtl">المساحة /
+                                    <span t-esc="int(o.broker_request_id.space)"/>
+                                    متر مريع
+                                </span>
+                            </p>
+                        </t>
+                        <p style="text-align: right;">
+                            <span dir="rtl">قيمة الوحدة /
+                                <span t-esc="round(o.broker_request_id.unit_id.price,2)"/>
+                            </span>
+                        </p>
+                        <t t-if="o.report_type != 'commission'">
+                            <t t-if="o.report_type == 'sales_person_incentive'">
+                                <p style="text-align: right;">
+                                    <span dir="rtl">قيمة الحافز /
+                                        <span t-esc="round(o.broker_request_id.get_sales_person_incentive_value(),2)"/>
+                                    </span>
+                                </p>
+                            </t>
+                            <t t-else="">
+                                <p style="text-align: right;">
+                                    <span dir="rtl">قيمة الحافز /
+                                        <span t-esc="round(o.broker_request_id.get_sales_manager_incentive_value(),2)"/>
+                                    </span>
+                                </p>
+                            </t>
+                        </t>
+                        <t t-if="o.report_type == 'sales_person_incentive'">
+                            <p style="text-align: right;">
+                                <span dir="rtl">اسم البائع /
+                                    <t t-if="o.broker_request_id.user_ids">
+                                        <span t-esc="o.broker_request_id.user_ids[0].employee_id.name"/>
+                                    </t>
+                                </span>
+                            </p>
+                            <p style="text-align: right;">
+                                <span dir="rtl">الرقم القومى /
+                                    <t t-if="o.broker_request_id.user_ids">
+                                        <span t-esc="o.broker_request_id.user_ids[0].employee_id.identification_id"/>
+                                    </t>
+                                </span>
+                            </p>
+                        </t>
+                        <t t-if="o.report_type == 'sales__manager_person_incentive'">
+                            <p style="text-align: right;">
+                                <span dir="rtl">اسم مدير المبيعات /
+                                    <t t-if="o.broker_request_id.user_ids">
+                                        <span t-esc="o.broker_request_id.user_ids[0].employee_id.parent_id.name"/>
+                                    </t>
+                                </span>
+                            </p>
+                            <p style="text-align: right;">
+                                <span dir="rtl">الرقم القومى /
+                                    <t t-if="o.broker_request_id.user_ids">
+                                        <span t-esc="o.broker_request_id.user_ids[0].employee_id.parent_id.identification_id"/>
+                                    </t>
+                                </span>
+                            </p>
+                        </t>
+                        <t t-if="o.report_type == 'commission'">
+                            <p style="text-align: right;">
+                                <span dir="rtl">قيمة العمولة بعد الضرائب /
+                                    <span t-esc="round(o.broker_request_id.before_tax_value,2)"/>
+                                </span>
+                            </p>
+                        </t>
+                        <!--                        <p style="text-align: right;">-->
+                        <!--                            <span dir="rtl">فيمة الحافز /-->
+                        <!--                            </span>-->
+                        <!--                        </p>-->
+
+                        <!--                        <p style="text-align: right;">-->
+                        <!--                            <span dir="rtl">اسم البائع /-->
+                        <!--                            </span>-->
+                        <!--                        </p>-->
+                        <!--                        <p style="text-align: right;">-->
+                        <!--                            <span dir="rtl">الرقم القومى /-->
+                        <!--                            </span>-->
+                        <!--                        </p>-->
+
+                        <!--                        <table width="100%">-->
+                        <!--                            <tbody>-->
+                        <!--&lt;!&ndash;                                <tr>&ndash;&gt;-->
+                        <!--&lt;!&ndash;                                    <td style="text-align: center">&ndash;&gt;-->
+                        <!--&lt;!&ndash;                                        <span t-esc="o.customer_id.customer_name"/>&ndash;&gt;-->
+                        <!--&lt;!&ndash;                                    </td>&ndash;&gt;-->
+                        <!--&lt;!&ndash;                                    <td style="text-align: right;" dir="rtl">&ndash;&gt;-->
+                        <!--&lt;!&ndash;                                        <span>مقدمة لسيادتكم شركة /</span>&ndash;&gt;-->
+                        <!--&lt;!&ndash;                                    </td>&ndash;&gt;-->
+                        <!--&lt;!&ndash;                                </tr>&ndash;&gt;-->
+                        <!--&lt;!&ndash;                                <tr>&ndash;&gt;-->
+                        <!--&lt;!&ndash;                                    <td style="text-align: center;">&ndash;&gt;-->
+                        <!--&lt;!&ndash;                                        <span t-esc="o.unit_code"/>&ndash;&gt;-->
+                        <!--&lt;!&ndash;                                    </td>&ndash;&gt;-->
+                        <!--&lt;!&ndash;                                    <td style="text-align: right;" dir="rtl">&ndash;&gt;-->
+                        <!--&lt;!&ndash;                                        <span>سجل تجارى رقم /</span>&ndash;&gt;-->
+                        <!--&lt;!&ndash;                                    </td>&ndash;&gt;-->
+                        <!--&lt;!&ndash;                                </tr>&ndash;&gt;-->
+                        <!--&lt;!&ndash;                                <tr>&ndash;&gt;-->
+                        <!--&lt;!&ndash;                                    <td style="text-align: center;">&ndash;&gt;-->
+                        <!--&lt;!&ndash;                                        <span t-esc="o.floor"/>&ndash;&gt;-->
+                        <!--&lt;!&ndash;                                    </td>&ndash;&gt;-->
+                        <!--&lt;!&ndash;                                    <td style="text-align: right;" dir="rtl">&ndash;&gt;-->
+                        <!--&lt;!&ndash;                                        <span>يطاقة ضريبية رقم /</span>&ndash;&gt;-->
+                        <!--&lt;!&ndash;                                    </td>&ndash;&gt;-->
+                        <!--&lt;!&ndash;                                </tr>&ndash;&gt;-->
+                        <!--                                <tr></tr>-->
+                        <!--                                <tr>-->
+                        <!--                                    <td style="text-align: center;">-->
+                        <!--                                        <span t-esc="o.space"/>-->
+                        <!--                                    </td>-->
+                        <!--                                    <td style="text-align: right;" dir="rtl">-->
+                        <!--                                        <span>الموضوع :-</span>-->
+                        <!--                                    </td>-->
+                        <!--                                </tr>-->
+                        <!--                                <tr>-->
+                        <!--                                    <td style="text-align: center;">-->
+                        <!--                                        <span t-esc="o.price"/>-->
+                        <!--                                    </td>-->
+                        <!--                                    <td style="text-align: right;" dir="rtl">-->
+                        <!--                                        <span>أجمالى قيمة الوحدة :-</span>-->
+                        <!--                                    </td>-->
+                        <!--                                </tr>-->
+                        <!--                                <tr>-->
+                        <!--                                    <td style="text-align: center;">-->
+                        <!--                                        <span t-esc="o.project_id.name"/>-->
+                        <!--                                    </td>-->
+                        <!--                                    <td style="text-align: right;" dir="rtl">-->
+                        <!--                                        <span>اسم المشروع :-</span>-->
+                        <!--                                    </td>-->
+                        <!--                                </tr>-->
+                        <!--                                <tr>-->
+                        <!--                                    <td style="text-align: center;">-->
+                        <!--                                        <span t-esc="o.project_id.name"/>-->
+                        <!--                                    </td>-->
+                        <!--                                    <td style="text-align: right;" dir="rtl">-->
+                        <!--                                        <span>اسم العميل :-</span>-->
+                        <!--                                    </td>-->
+                        <!--                                </tr>-->
+                        <!--                                <tr>-->
+                        <!--                                    <td style="text-align: center;">-->
+                        <!--                                        <span t-esc="o.project_id.name"/>-->
+                        <!--                                    </td>-->
+                        <!--                                    <td style="text-align: right;" dir="rtl">-->
+                        <!--                                        <span>رقم الوحدة :-</span>-->
+                        <!--                                    </td>-->
+                        <!--                                </tr>-->
+                        <!--                                <tr>-->
+                        <!--                                    <td style="text-align: center;">-->
+                        <!--                                        <span t-esc="o.project_id.name"/>-->
+                        <!--                                    </td>-->
+                        <!--                                    <td style="text-align: right;" dir="rtl">-->
+                        <!--                                        <span>قيمة الوحدة :-</span>-->
+                        <!--                                    </td>-->
+                        <!--                                </tr>-->
+                        <!--                                <tr>-->
+                        <!--                                    <td style="text-align: center;">-->
+                        <!--                                        <span t-esc="o.project_id.name"/>-->
+                        <!--                                    </td>-->
+                        <!--                                    <td style="text-align: right;" dir="rtl">-->
+                        <!--                                        <span>قيمة الحافز :-</span>-->
+                        <!--                                    </td>-->
+                        <!--                                </tr>-->
+                        <!--                                <tr>-->
+                        <!--                                    <td style="text-align: center;">-->
+                        <!--                                        <span t-esc="o.project_id.name"/>-->
+                        <!--                                    </td>-->
+                        <!--                                    <td style="text-align: right;" dir="rtl">-->
+                        <!--                                        <span>الرثم القومى :-</span>-->
+                        <!--                                    </td>-->
+                        <!--                                </tr>-->
+                        <!--                            </tbody>-->
+                        <!--                        </table>-->
+                        <br/>
+                        <p style="text-align: center;">وتفضلوا بقيول جزيل الشكر ووافر الاحترام</p>
+                    </div>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <div>
+                        <p style="font-weight;text-align:left;padding-left: 20%;">
+                            يعتمد
+                        </p>
                     </div>
                 </t>
             </t>
@@ -85,7 +343,7 @@
 
     <record id="commission_request_report_id" model="ir.actions.report">
         <field name="name">Contract Report</field>
-        <field name="model">broker.request</field>
+        <field name="model">commission.request.report</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">khl_broker.commission_request_template_id</field>
         <field name="report_file">khl_broker.commission_request_template_id</field>

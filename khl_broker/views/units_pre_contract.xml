@@ -7,9 +7,9 @@
             <field name="arch" type="xml">
                 <form string="Units Pre Contract">
                     <header>
-                        <button name="check_mobile" string="Check Customer Mobile" type="object" states="pending"
+                        <button name="check_mobile" string="Check Customer Mobile" type="object" states="contract"
                                 class="oe_highlight"/>
-                        <button name="confirm" string="Confirm" type="object" states="pending" class="oe_highlight"/>
+                        <button name="confirm" string="Confirm" type="object" states="contract" class="oe_highlight"/>
                         <field name="state" widget="statusbar"/>
                     </header>
                     <sheet>
@@ -26,27 +26,27 @@
                         </div>
                         <group>
                             <group>
-                                <field name="ref_number" attrs="{'readonly':[('state','!=','pending')]}"/>
-                                <field name="partner_id" attrs="{'readonly':[('state','!=','pending')]}"/>
-                                <field name="project_id" attrs="{'readonly':[('state','!=','pending')]}"/>
-                                <field name="reservation_value" attrs="{'readonly':[('state','!=','pending')]}"/>
-                                <field name="reservation_date" attrs="{'readonly':[('state','!=','pending')]}"/>
-                                <field name="unit_id" attrs="{'readonly':[('state','!=','pending')]}"/>
+                                <field name="ref_number" attrs="{'readonly':[('state','=','contract')]}"/>
+                                <field name="partner_id" attrs="{'readonly':[('state','=','contract')]}"/>
+                                <field name="project_id" attrs="{'readonly':[('state','=','contract')]}"/>
+                                <field name="reservation_value" attrs="{'readonly':[('state','=','contract')]}"/>
+                                <field name="reservation_date" attrs="{'readonly':[('state','=','contract')]}"/>
+                                <field name="unit_id" attrs="{'readonly':[('state','=','contract')]}"/>
                             </group>
                             <group>
-                                <field name="mobile_no" attrs="{'readonly':[('state','!=','pending')]}"/>
+                                <field name="mobile_no" attrs="{'readonly':[('state','=','contract')]}"/>
                                 <field name="is_found" invisible="1"/>
                                 <field name="customer_name"/>
                                 <field name="address"/>
-                                <field name="employee_ids" widget="many2many_tags" attrs="{'readonly':[('state','!=','pending')]}"/>
+                                <field name="employee_ids" widget="many2many_tags" attrs="{'readonly':[('state','=','contract')]}"/>
                             </group>
                         </group>
                         <notebook>
                             <page string="Customer Requirements">
-                                <field name="customer_req" attrs="{'readonly':[('state','!=','pending')]}"/>
+                                <field name="customer_req" attrs="{'readonly':[('state','=','contract')]}"/>
                             </page>
                             <page string="Notes">
-                                <field name="notes" attrs="{'readonly':[('state','!=','pending')]}"/>
+                                <field name="notes" attrs="{'readonly':[('state','=','contract')]}"/>
                             </page>
                         </notebook>
                     </sheet>

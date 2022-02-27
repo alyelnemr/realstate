@@ -122,6 +122,29 @@ class BrokerRequest(models.Model):
                     })
             self.env['sales.commissions.incentives'].create(vals)
 
+    def get_sales_person_incentive_value(self):
+        self.ensure_one()
+        sale_person_incentive_value = 0.0
+        if self.user_ids:
+            if self.sales_person_incentive_type == 'percentage' and self.incentive_sales_person_percentage > 0:
+                sale_person_incentive_value = (self.price * (self.incentive_sales_person_percentage / 100)) / len(
+                    self.user_ids)
+            if self.sales_person_incentive_type == 'value' and self.incentive_sales_person_value > 0:
+                sale_person_incentive_value = (self.incentive_sales_person_value) / len(self.user_ids)
+
+        return sale_person_incentive_value
+
+    def get_sales_manager_incentive_value(self):
+        self.ensure_one()
+        sales_manager_incentive_value = 0.0
+        for employee in self.user_ids:
+            if self.sales_manager_incentive_type == 'percentage' and self.incentive_sales_manager_percentage > 0 and employee.employee_id.parent_id:
+                sales_manager_incentive_value = (self.price * (self.incentive_sales_manager_percentage / 100)) / len(
+                    self.user_ids)
+            if self.sales_manager_incentive_type == 'value' and self.incentive_sales_manager_value > 0 and employee.employee_id.parent_id:
+                sales_manager_incentive_value = (self.incentive_sales_manager_value) / len(self.user_ids)
+        return sales_manager_incentive_value
+
     @api.depends('with_holding', 'before_tax_value')
     def compute_with_holding_value(self):
         for rec in self:
@@ -220,7 +243,24 @@ class BrokerRequest(models.Model):
                         target.achieved_amount = target.achieved_amount + rec.price
 
     def commission_request(self):
-        return self.env.ref('khl_broker.commission_request_report_id').report_action(self.id)
+        self.ensure_one()
+        wizard_form = self.env.ref('khl_broker.view_commission_request_report_wizard')
+        new_context = self.env.context.copy()
+        new_context.update({
+            'default_broker_request_id': self.id,
+        })
+        return {
+            'name': 'Commission And Incentives  Report',
+            'type': 'ir.actions.act_window',
+            'res_model': 'commission.request.report',
+            'view_id': wizard_form.id,
+            'view_type': 'form',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': new_context,
+        }
+
+        # return self.env.ref('khl_broker.commission_request_report_id').report_action(self.id)
 
     def create_invoice(self):
         # create product of type service
@@ -241,6 +281,7 @@ class BrokerRequest(models.Model):
             'date': fields.Date.today(),
             'invoice_date': fields.Date.today(),
             'company_id': self.company_id.id,
+            'unit_id': self.unit_id.id,
             'invoice_line_ids': [(0, 0, {'product_id': product.id,
                                          'price_unit': self.before_tax_value,
                                          'account_id': product.categ_id.property_account_income_categ_id.id,
@@ -253,10 +294,10 @@ class BrokerRequest(models.Model):
         self.get_sales_target_for_user()
         self.update_achieved_amount()
         self.get_employee_bouns_value()
-        if self.pre_contract_reservation_id:
-            self.pre_contract_reservation_id.write({
-                'state': 'contract'
-            })
+        # if self.pre_contract_reservation_id:
+        #     self.pre_contract_reservation_id.write({
+        #         'state': 'contract'
+        #     })
 
     def get_employee_bouns_value(self):
         for rec in self:

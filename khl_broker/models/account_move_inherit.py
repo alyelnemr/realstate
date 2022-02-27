@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
+import math
 
 
 class AccountMoveInherit(models.Model):
     _inherit = 'account.move'
+
+    developer_company = fields.Many2one('res.partner', string="Developer Company")
+    unit_id = fields.Many2one('broker.units', string="Unit")
 
     def get_detailed_taxes(self):
         taxes = {}
@@ -22,3 +26,8 @@ class AccountMoveInherit(models.Model):
                 return txt.replace("and", "و")
             else:
                 return ''
+
+    def return_value_details(self, amount):
+        if amount:
+            frac, whole = math.modf(amount)
+            return frac

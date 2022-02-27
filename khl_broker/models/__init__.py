@@ -16,3 +16,4 @@ from . import emp_sales_target_lines
 from . import hr_employee_inherit
 from . import res_partner_inherit
 from . import account_move_inherit
+from . import res_company_inherit

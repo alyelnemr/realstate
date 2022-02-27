@@ -26,7 +26,7 @@ class UnitPreContrct(models.Model):
         ('pending', 'Pending'),
         ('confirmed', 'Confirmed'),
         ('contract', 'Contract'),
-    ], 'State', index=True, default="draft", tracking=True)
+    ], 'State', index=True, default="pending", tracking=True)
 
     contract_count = fields.Integer(string="Contract Count", compute='compute_contract_count')
     unit_id = fields.Many2one('broker.units', string="Unit")
