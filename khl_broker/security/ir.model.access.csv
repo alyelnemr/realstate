@@ -15,6 +15,10 @@ access_emp_sales_target,access_emp_sales_target,model_emp_sales_target,,1,1,1,1
 access_emp_sales_target_lines,access_emp_sales_target_lines,model_emp_sales_target_lines,,1,1,1,1
 access_emp_sales_target_report,access_emp_sales_target_report,model_emp_sales_target_report,,1,1,1,1
 access_commission_request_report,access_commission_request_report,model_commission_request_report,,1,1,1,1
+access_contract_reject_reasons,access_contract_reject_reasons,model_contract_reject_reasons,,1,1,1,1
+access_contract_commissions_details,access_contract_commissions_details,model_contract_commissions_details,,1,1,1,1
+
+
 
 
 

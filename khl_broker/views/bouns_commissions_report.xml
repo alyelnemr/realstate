@@ -14,9 +14,13 @@
                     <field name="unit_id" readonly="1" options="{'no_create': True, 'no_open': True}"/>
                     <field name="unit_amount" readonly="1" string="Company Commission" sum="total"/>
                     <field name="bouns_value" readonly="1" sum="total"/>
+                    <field name="to_pay_amount"  sum="total" attrs="{'readonly':[('paid','=','full')]}"/>
+                    <field name="paid_amount"  sum="total" readonly="1"/>
+                    <field name="remaing_amount"  sum="total"/>
                     <field name="due_date" string="Commission Due Date"/>
                     <field name="make_payroll"/>
-                    <field name="is_paid" readonly="1"/>
+                    <field name="paid" readonly="1"/>
+                    <field name="notes"/>
                 </tree>
             </field>
         </record>
@@ -43,6 +47,27 @@
             </field>
         </record>
 
+         <record id="view_bouns_commission_report_tree_inherit" model="ir.ui.view">
+            <field name="name">view_bouns_commission_report_tree_inherit</field>
+            <field name="model">sales.commissions.incentives</field>
+            <field name="inherit_id" ref="khl_broker.view_bouns_commission_report_tree"/>
+            <field name="groups_id" eval="[(4, ref('khl_broker.group_see_own_reports'))]"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='to_pay_amount']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='make_payroll']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='notes']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='due_date']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+            </field>
+        </record>
+
         <record id="view_bouns_report_search" model="ir.ui.view">
             <field name="name">sales.bouns.report.search</field>
             <field name="model">sales.commissions.incentives</field>
@@ -65,6 +90,7 @@
             <field name="name">Bouns Report</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">sales.commissions.incentives</field>
+            <field name="view_id" ref="view_bouns_commission_report_tree"/>
             <field name="domain">[('type','=','bouns')]</field>
             <field name="view_mode">tree,form,graph,pivot</field>
         </record>

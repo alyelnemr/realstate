@@ -18,9 +18,21 @@
                         <button name="commission_request" string="Commission Request" type="object"
                                 class="oe_highlight"/>
 
+                        <!--                        <button name="approve" string="Approve" type="object"-->
+                        <!--                                class="oe_highlight" states="sold"/>-->
+                        <!--                        <button name="reject" string="Reject" type="object"-->
+                        <!--                                class="oe_highlight" states="sold"/>-->
+
                         <button name="create_invoice" string="Create Invoice" type="object" class="oe_highlight"
                                 states="sold"/>
-                        <button name="calculate_incentive" string="Calculate Incentives" type="object" class="oe_highlight"
+                        <button name="calculate_incentive" string="Calculate Incentives" type="object"
+                                class="oe_highlight"
+                                states="invoiced"/>
+                        <!--                        <button name="calculate_commission" string="Calculate Commission" type="object"-->
+                        <!--                                class="oe_highlight"-->
+                        <!--                                states="invoiced"/>-->
+                        <button name="calculate_bouns" string="Calculate Bouns" type="object"
+                                class="oe_highlight"
                                 states="invoiced"/>
                         <field name="state" invisible="1"/>
                     </header>
@@ -42,6 +54,7 @@
                                 <field name="developer_company" options="{'no_open': True}"/>
                                 <field name="customer_id" options="{'no_open': True}"/>
                                 <field name="unit_id" options="{'no_open': True}" domain="[('state','=','valid')]"/>
+                                <!--                                <field name="incentive_value"/>-->
                                 <field name="contract_date"/>
                                 <field name="reserve_date"/>
                             </group>
@@ -90,6 +103,7 @@
                                     <group>
                                         <field name="developer_percentage" string="Developer %"/>
                                         <field name="company_commission" string="Commission Value"/>
+                                        <field name="tax_type"/>
                                         <field name="internal_taxes_percentage" string="Tax %"/>
                                         <field name="before_tax_value"/>
                                     </group>
@@ -97,12 +111,31 @@
                                         <field name="company_amount_after_internal_taxes" string="Tax Value"/>
                                         <field name="with_holding"/>
                                         <field name="with_holding_value"/>
+                                        <field name="other_deductions"/>
                                         <field name="net_value"/>
                                     </group>
                                     <group>
                                         <field name="sales_man_commission_based_value"/>
                                     </group>
                                 </group>
+                            </page>
+                            <page string="Reject Reasons">
+                                <field name="reject_reasons_ids" readonly="1">
+                                    <tree>
+                                        <field name="user_id"/>
+                                        <field name="date"/>
+                                        <field name="reason"/>
+                                    </tree>
+                                    <form>
+                                        <sheet>
+                                            <group>
+                                                <field name="user_id"/>
+                                                <field name="date"/>
+                                                <field name="reason"/>
+                                            </group>
+                                        </sheet>
+                                    </form>
+                                </field>
                             </page>
                         </notebook>
                     </sheet>
@@ -160,6 +193,15 @@
         </record>
 
         <function model="broker.request" name="drop_account_constraint"/>
+
+        <record id="calculate_commission_server_action" model="ir.actions.server">
+            <field name="name">Calculate Commission</field>
+            <field name="model_id" ref="khl_broker.model_broker_request"/>
+            <field name="binding_model_id" ref="khl_broker.model_broker_request"/>
+            <field name="binding_view_types">list</field>
+            <field name="state">code</field>
+            <field name="code">records.calculate_commission()</field>
+        </record>
 
 
     </data>

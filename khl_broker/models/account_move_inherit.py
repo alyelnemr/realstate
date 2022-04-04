@@ -9,6 +9,7 @@ class AccountMoveInherit(models.Model):
 
     developer_company = fields.Many2one('res.partner', string="Developer Company")
     unit_id = fields.Many2one('broker.units', string="Unit")
+    contract_id = fields.Many2one('broker.request', string="Contract")
 
     def get_detailed_taxes(self):
         taxes = {}

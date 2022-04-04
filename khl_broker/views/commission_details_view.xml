@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="view_commission_details_view_tree" model="ir.ui.view">
+            <field name="name">view.commission.details.view.tree</field>
+            <field name="model">contract.commissions.details</field>
+            <field name="arch" type="xml">
+                <tree string="Commission Details Report" create="0" delete="1" edit="1"
+                      duplicate="0" editable="bottom">
+                    <field name="name" readonly="1" string="Type"/>
+                    <field name="employee_id" readonly="1" options="{'no_create': True, 'no_open': True}"/>
+                    <field name="job_id" readonly="1" options="{'no_create': True, 'no_open': True}"/>
+                    <field name="contract_no" readonly="1" string="Contract No."/>
+                    <field name="unit_id" readonly="1" options="{'no_create': True, 'no_open': True}"/>
+                    <field name="unit_amount" readonly="1" string="Company Commission" sum="total"/>
+                    <field name="commission_percentage" readonly="1" string="Emp Commission %" sum="total"/>
+                    <field name="commission_amount" readonly="1" string="Emp Commission Amount" sum="total"/>
+                    <field name="due_date" string="Commission Due Date"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>

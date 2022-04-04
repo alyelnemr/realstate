@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <data>
-        <record id="view_sales_person_commission_report_tree" model="ir.ui.view">
+        <record id="view_bouns_incentives_commission_report_tree" model="ir.ui.view">
             <field name="name">view.sales.person.commission.report.tree</field>
             <field name="model">sales.commissions.incentives</field>
             <field name="arch" type="xml">
@@ -10,41 +10,22 @@
                     <field name="name" readonly="1" string="Type"/>
                     <field name="employee_id" readonly="1" options="{'no_create': True, 'no_open': True}"/>
                     <field name="job_id" readonly="1" options="{'no_create': True, 'no_open': True}"/>
-                    <field name="contract_no" readonly="1" string="Contract No."/>
-                    <field name="unit_id" readonly="1" options="{'no_create': True, 'no_open': True}"/>
+                    <field name="broker_request_id" readonly="1" widget="many2many_tags"/>
+<!--                    <field name="unit_id" readonly="1" options="{'no_create': True, 'no_open': True}"/>-->
                     <field name="unit_amount" readonly="1" string="Company Commission" sum="total"/>
                     <field name="commission_percentage" readonly="1" string="Emp Commission %" sum="total"/>
                     <field name="commission_amount" readonly="1" string="Emp Commission Amount" sum="total"/>
-                    <field name="to_pay_amount" sum="total" attrs="{'readonly':[('paid','=','full')]}"/>
+                    <field name="bouns_value" readonly="1" sum="total"/>
+                    <field name="incentive_value" readonly="1" sum="total"/>
+<!--                    <field name="to_pay_amount" sum="total" attrs="{'readonly':[('paid','=','full')]}"/>-->
                     <field name="paid_amount" sum="total" readonly="1"/>
-                    <field name="remaing_amount" sum="total"/>
-                    <field name="due_date" string="Commission Due Date"/>
-                    <field name="make_payroll"/>
+                    <field name="remaing_amount" sum="total" readonly="1"/>
+                    <field name="due_date" string="Commission Due Date" readonly="1"/>
+<!--                    <field name="make_payroll"/>-->
                     <field name="paid" readonly="1"/>
-                    <field name="notes"/>
+                    <field name="notes" readonly="1"/>
                     <button name="view_commission_details" string="View Commission Details" type="object" class="oe_highlight"/>
                 </tree>
-            </field>
-        </record>
-
-        <record id="view_sales_person_commission_report_tree_inherit" model="ir.ui.view">
-            <field name="name">view.sales.person.commission.report.tree</field>
-            <field name="model">sales.commissions.incentives</field>
-            <field name="inherit_id" ref="khl_broker.view_sales_person_commission_report_tree"/>
-            <field name="groups_id" eval="[(4, ref('khl_broker.group_see_own_reports'))]"/>
-            <field name="arch" type="xml">
-                <xpath expr="//field[@name='to_pay_amount']" position="attributes">
-                    <attribute name="readonly">1</attribute>
-                </xpath>
-                <xpath expr="//field[@name='make_payroll']" position="attributes">
-                    <attribute name="readonly">1</attribute>
-                </xpath>
-                <xpath expr="//field[@name='notes']" position="attributes">
-                    <attribute name="readonly">1</attribute>
-                </xpath>
-                <xpath expr="//field[@name='due_date']" position="attributes">
-                    <attribute name="readonly">1</attribute>
-                </xpath>
             </field>
         </record>
 
@@ -56,6 +37,7 @@
                     <field name="employee_id" type="row"/>
                     <field name="commission_amount" type="measure"/>
                     <field name="incentive_value" type="measure"/>
+                    <field name="bouns_value" type="measure"/>
                 </graph>
             </field>
         </record>
@@ -68,6 +50,7 @@
                     <field name="employee_id" type="row"/>
                     <field name="commission_amount" type="measure"/>
                     <field name="incentive_value" type="measure"/>
+                    <field name="bouns_value" type="measure"/>
                 </pivot>
             </field>
         </record>
@@ -90,12 +73,11 @@
             </field>
         </record>
 
-        <record id="action_sales_person_commission_report_view" model="ir.actions.act_window">
-            <field name="name">Commissions Report</field>
+        <record id="action_bouns_incentives_commission_report_view" model="ir.actions.act_window">
+            <field name="name">Sales Persons Commission And Incentives And Bouns Report</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">sales.commissions.incentives</field>
-            <field name="view_id" ref="view_sales_person_commission_report_tree"/>
-            <field name="domain">[('type','=','commission')]</field>
+            <field name="view_id" ref="view_bouns_incentives_commission_report_tree"/>
             <field name="view_mode">tree,form,graph,pivot</field>
         </record>
     </data>

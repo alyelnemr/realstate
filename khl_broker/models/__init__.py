@@ -17,3 +17,5 @@ from . import hr_employee_inherit
 from . import res_partner_inherit
 from . import account_move_inherit
 from . import res_company_inherit
+from . import contract_reject_reasons
+from . import contract_commissions_details
